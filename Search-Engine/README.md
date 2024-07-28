@@ -1,11 +1,11 @@
 # Search-Engine
 
-# Build Your Own Search Engine
+## Build Your Own Search Engine
 
 A simple search index using TF-IDF and cosine similarity for text fields and exact matching for keyword fields. It allows you to index documents with text and keyword fields and perform search queries with support for filtering and boosting.
 
 
-## 1. Preparing the environment
+### Preparing the environment
 
 Make sure you have the required dependencies installed:
 
@@ -13,31 +13,62 @@ Make sure you have the required dependencies installed:
 pip install pandas scikit-learn
 ```
 
+###  Usage
 
-## 2. Basics of Text Search
-
-- **Information Retrieval** - The process of obtaining relevant information from large datasets based on user queries.
-- **Vector Spaces** - A mathematical representation where text is converted into vectors (points in space) allowing for quantitative comparison.
-- **Bag of Words** - A simple text representation model treating each document as a collection of words disregarding grammar and word order but keeping multiplicity.
-- **TF-IDF (Term Frequency-Inverse Document Frequency)** - A statistical measure used to evaluate how important a word is to a document in a collection or corpus. It increases with the number of times a word appears in the document but is offset by the frequency of the word in the corpus.
+Here's how you can use the library:
 
 
-## 3.   Create the Index
+### Define Your Documents
 
-Create an instance of the `Index` class, specifying the text and keyword fields.
+Prepare your documents as a list of dictionaries. Each dictionary should have the text and keyword fields you want to index.
+
+```python
+docs = [
+    {
+        "question": "How do I join the course after it has started?",
+        "text": "You can join the course at any time. We have recordings available.",
+        "section": "General Information",
+        "course": "llm-course"
+    },
+    {
+        "question": "What are the prerequisites for the course?",
+        "text": "You need to have basic knowledge of programming.",
+        "section": "Course Requirements",
+        "course": "data-scinec-course"
+    }
+]
+```
+
+### Create the Index
+
+Create an instance of the `TextSearch` class, specifying the text and keyword fields.
 
 
 ```python
-from minsearch import Index
+from minsearch import TextSearch
 
-index = Index(
-    text_fields=["question", "text", "section"],
-    keyword_fields=["course"]
+index = TextSearch(text_fields=['section', 'question', 'text'])
 )
 ```
 
 Fit the index with your documents
 
 ```python
-index.fit(docs)
+index.fit(documents)
+```
+
+### Perform a Search
+
+Search the index with a query string, optional filter dictionary, and optional boost dictionary.
+
+```python
+query = "Can I join the course if it has already started?"
+
+filter_dict = {"course": "llm-course"}
+boost_dict = {"question": 3, "text": 1, "section": 1}
+
+results = index.search(query, filter_dict, boost_dict)
+
+for result in results:
+    print(result)
 ```
