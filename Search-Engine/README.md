@@ -62,12 +62,13 @@ index.fit(documents)
 Search the index with a query string, optional filter dictionary, and optional boost dictionary.
 
 ```python
-query = "Can I join the course if it has already started?"
 
-filter_dict = {"course": "llm-course"}
-boost_dict = {"question": 3, "text": 1, "section": 1}
-
-results = index.search(query, filter_dict, boost_dict)
+results = index.search(
+    query='I just singned up. Is it too late to join the course?',
+    n_results=5,
+    boost={'question': 3.0},
+    filters={"course": "llm-course"}
+)
 
 for result in results:
     print(result)
