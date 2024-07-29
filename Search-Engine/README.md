@@ -45,7 +45,7 @@ Create an instance of the `TextSearch` class, specifying the text and keyword fi
 
 
 ```python
-from minsearch import TextSearch
+from querysearch import TextSearch
 
 index = TextSearch(text_fields=['section', 'question', 'text'])
 )
